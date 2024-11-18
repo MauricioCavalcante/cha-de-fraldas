@@ -4,14 +4,19 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// Alterar o idioma do documento para pt-BR
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+document.documentElement.lang = 'pt-BR';  
+navigator.language = 'pt-BR';              
+
 root.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Se você quiser medir o desempenho na sua aplicação, passe uma função
+// para registrar os resultados (por exemplo: reportWebVitals(console.log))
+// ou envie para um endpoint de análise. Saiba mais: https://bit.ly/CRA-vitals
 reportWebVitals();
