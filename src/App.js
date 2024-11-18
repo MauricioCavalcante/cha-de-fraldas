@@ -8,17 +8,20 @@ import RSVP from './pages/RSVP';
 import Gallery from './pages/Gallery';
 import GlobalStyles from './styles/GlobalStyles';
 
+
 function App() {
   return (
-    <Router>
+    <>
+    <GlobalStyles />
+    <Router basename="/cha-de-fraldas">
       <Header />
-      <GlobalStyles />
       <Routes>
-        <Route path="/cha-de-fraldas" element={<Home />} />
-        <Route path="/cha-de-fraldas/rsvp" element={<RSVP />} />
-        <Route path="/cha-de-fraldas/gallery" element={<Gallery />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/rsvp" element={<RSVP />} />
+        <Route path="/gallery" element={<Gallery />} />
       </Routes>
     </Router>
+    </>
   );
 }
 

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/styles.css';  // Importando o arquivo de estilos (caso necessário)
+
+
 
 function Header() {
   return (
     <nav className="navbar navbar-expand-lg navbar-light custom-navbar-bg sticky-top">
       <div className="container">
-        <Link className="navbar-brand" to="/cha-de-fraldas">
+        <Link className="navbar-brand" to="/">
           Chá de Fraldas
         </Link>
         <button
@@ -23,17 +24,17 @@ function Header() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/cha-de-fraldas">
+              <Link className="nav-link" to="/">
                 Início
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/cha-de-fraldas/rsvp">
+              <Link className="nav-link" to="/rsvp">
                 Confirmar Presença
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/cha-de-fraldas/gallery">
+              <Link className="nav-link" to="/gallery">
                 Galeria
               </Link>
             </li>

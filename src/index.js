@@ -7,8 +7,8 @@ import reportWebVitals from './reportWebVitals';
 // Alterar o idioma do documento para pt-BR
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+// Definindo a língua do documento HTML
 document.documentElement.lang = 'pt-BR';  
-navigator.language = 'pt-BR';              
 
 root.render(
   <React.StrictMode>
