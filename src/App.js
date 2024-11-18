@@ -15,8 +15,8 @@ function App() {
       <GlobalStyles />
       <Routes>
         <Route path="/cha-de-fraldas" element={<Home />} />
-        <Route path="/rsvp" element={<RSVP />} />
-        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/cha-de-fraldas/rsvp" element={<RSVP />} />
+        <Route path="/cha-de-fraldas/gallery" element={<Gallery />} />
       </Routes>
     </Router>
   );

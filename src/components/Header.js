@@ -28,12 +28,12 @@ function Header() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/rsvp">
+              <Link className="nav-link" to="/cha-de-fraldas/rsvp">
                 Confirmar Presença
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/gallery">
+              <Link className="nav-link" to="/cha-de-fraldas/gallery">
                 Galeria
               </Link>
             </li>
