@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import QRCodeComponent from "./QRCodeComponent";
+import PaymentQRCode from "./QRCodeComponent";
 
 function DonationModal({
   showModal,
@@ -13,55 +13,48 @@ function DonationModal({
   handleChange,
   setFormData,
 }) {
-  // Calcula a quantidade máxima disponível para doação
   const maxQuantity =
     selectedGift && !isNaN(selectedGift[3]) && !isNaN(selectedGift[4])
       ? selectedGift[3] - selectedGift[4]
       : 0;
 
-  // Calcula o valor total da doação
   const totalValue =
     selectedGift && !isNaN(selectedGift[5]) && !isNaN(formData.quantidade)
-      ? selectedGift[5] * formData.quantidade
+      ? (selectedGift[5] * formData.quantidade).toFixed(2)
       : 0;
 
-  // Função para formatar a data no formato YYYY-MM-DD
   const formatDate = (date) => {
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
-    return `${year}-${month}-${day}`; // Para o formato "YYYY-MM-DD"
+    return `${year}-${month}-${day}`;
   };
 
-  // Data atual
   const currentDate = formatDate(new Date());
 
   useEffect(() => {
     if (selectedGift) {
-      // Quando um novo presente for selecionado, inicializamos o formData
       setFormData((prevState) => ({
         ...prevState,
-        item: selectedGift[1], // Nome do item
-        quantidade: 1, // Inicia com 1
-        tipoDoacao: "Pix", // Tipo de doação inicial
-        data: currentDate, // Preenche o campo data
-        id: selectedGift[0], // ID do presente
+        item: selectedGift[1],
+        quantidade: 1,
+        tipoDoacao: "Pix",
+        data: currentDate,
+        id: selectedGift[0],
       }));
     }
   }, [selectedGift, setFormData]);
 
   const closeModal = () => setShowModal(false);
 
-  const handleCopy = (pixKey) => {
-    navigator.clipboard.writeText(pixKey);
+  const handleCopy = () => {
+    navigator.clipboard.writeText();
     alert("Chave Pix copiada para a área de transferência!");
   };
 
-  // Alterando a forma como handleSubmit é chamado
   const handleFormSubmit = (e) => {
-    e.preventDefault(); // Previne o comportamento padrão do formulário
+    e.preventDefault();
 
-    // Verificar se todos os campos obrigatórios estão presentes
     if (
       !formData.id ||
       !formData.item ||
@@ -71,10 +64,9 @@ function DonationModal({
       !formData.tipoDoacao
     ) {
       alert("Todos os campos são obrigatórios.");
-      return; // Evita o envio do formulário se faltar algum campo
+      return;
     }
 
-    // Passa os dados para o backend
     handleSubmit(formData);
   };
 
@@ -86,15 +78,13 @@ function DonationModal({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {/* Exibe as informações do presente */}
-        <p>
-          <strong>Imagem:</strong>{" "}
+        <div className="d-flex justify-content-center">
           <img
-            src={selectedGift ? selectedGift[2] : "#"}
+            src={selectedGift ? selectedGift[6] : "#"}
             alt={selectedGift ? selectedGift[1] : "Indefinido"}
-            style={{ width: "100%", height: "auto" }}
+            style={{ width: "200px", height: "auto" }}
           />
-        </p>
+        </div>
         <div className="d-flex gap-3">
           <p>
             <strong>Quantidade Máxima:</strong>{" "}
@@ -110,10 +100,11 @@ function DonationModal({
           {selectedGift ? `R$ ${selectedGift[5].toFixed(2)}` : "Indefinido"}
         </p>
 
-        {/* Exibe o valor total da doação */}
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="donorName">
-            <Form.Label>Seu nome</Form.Label>
+            <Form.Label>
+              <strong>Seu nome</strong>
+            </Form.Label>
             <Form.Control
               type="text"
               name="doador"
@@ -123,7 +114,9 @@ function DonationModal({
             />
           </Form.Group>
           <Form.Group controlId="donationQuantity">
-            <Form.Label>Quantidade</Form.Label>
+            <Form.Label>
+              <strong>Quantidade</strong>
+            </Form.Label>
             <Form.Control
               type="number"
               name="quantidade"
@@ -135,7 +128,9 @@ function DonationModal({
             />
           </Form.Group>
           <Form.Group controlId="donationType">
-            <Form.Label>Tipo de Doação</Form.Label>
+            <Form.Label>
+              <strong>Tipo de Doação</strong>
+            </Form.Label>
             <Form.Control
               as="select"
               name="tipoDoacao"
@@ -155,7 +150,6 @@ function DonationModal({
                 : "Indefinido"}
             </Form.Label>
           </Form.Group>
-          {/* Campo hidden para data */}
           <Form.Control
             type="hidden"
             name="data"
@@ -164,19 +158,13 @@ function DonationModal({
           />
           {formData.tipoDoacao === "Pix" && selectedGift && selectedGift[5] && (
             <div>
-              <strong>Presentar com Pix:</strong>
-              <QRCodeComponent
-                pixCode={`00020126580014br.gov.bcb.pix0136${
-                  selectedGift[6]
-                }52040000530398654051${(
-                  selectedGift[5] *
-                  formData.quantidade *
-                  100
-                ).toFixed(
-                  0
-                )}5802BR5922Julia Cavalcante Silva6009Sao Paulo62070503***6304E2AB`}
-              />
-              {/* Exibe o QR Code do Pix com o código gerado */}
+              <div>
+                <strong>Presentar com Pix:</strong>
+              </div>
+              <div className="d-flex justify-content-center">
+                <PaymentQRCode valorTotal={totalValue} />
+              </div>
+              <div className="d-flex justify-content-center"> <Button className="btn-copy mt-4" onClick={() => handleCopy()}>Copiar código</Button> </div>
             </div>
           )}
           {formData.tipoDoacao === "Comprar" &&
@@ -185,7 +173,7 @@ function DonationModal({
               <div>
                 <strong>Sugestão de Link:</strong>
                 <a
-                  href={selectedGift[2]} // Usando o link de compra online
+                  href={selectedGift[2]}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

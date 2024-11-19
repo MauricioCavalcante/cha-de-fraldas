@@ -1,21 +1,17 @@
 import React from 'react';
-import { QRCodeCanvas } from 'qrcode.react';
+import { PIX } from 'react-qrcode-pix';
 
-function QRCodeComponent({ pixCode }) {
-  if (!pixCode) {
-    return <p>Informações inválidas para gerar o QR Code</p>;
-  }
-
+const PaymentQRCode = ({ valorTotal }) => {
   return (
-    <div className="qrcode-container">
-      <QRCodeCanvas
-        value={pixCode} 
-        size={100} 
-        fgColor="#000000" 
-        bgColor="#ffffff" 
-      />
-    </div>
+    <PIX
+      pixkey="05735168126"
+      merchant="MAURICIO CAVALCANTE RIBEIRO"
+      city="SAO PAULO"
+      amount={parseFloat(valorTotal)}
+      size={125}
+      onLoad={(payload) => console.log('Payload:', payload)}
+    />
   );
-}
+};
 
-export default QRCodeComponent;
+export default PaymentQRCode;
