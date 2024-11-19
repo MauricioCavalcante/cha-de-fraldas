@@ -5,12 +5,13 @@ import GiftList from "../components/GiftList";
 function Home() {
   return (
     <div className="container custom-container text-center mt-2">
+
       <div className="container-fluid container-title p-2">
         <h2>Bem-vindo ao Chá de Fraldas</h2>
         <h2> da Ana Clara!</h2>
       </div>
       <div className="container ursinha">
-      <img className="img-fluid" src="/ursinha.png" alt="Ursinha" />
+      <img className="img-fluid" src="cha-de-fraldas/ursinha.png" alt="Ursinha" />
 
       </div>
       <div className="container-fluid justify-content-center col-12 col-md-7">

@@ -12,7 +12,7 @@ const GlobalStyles = createGlobalStyle`
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
-        background-image: url("/fundo.png");
+        background-image: url("cha-de-fraldas/fundo.png");
         background-position: center;
         color: #333;
     }
@@ -81,6 +81,32 @@ const GlobalStyles = createGlobalStyle`
         background-color: var(--pink-color);
         color: white;
         padding: 0.8em;
+    }
+    .btn-custom {
+        background-color: var(--pink-color);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+
+        /* Efeito ao passar o mouse */
+        &:hover {
+            background-color: #d77e97; /* Escurecendo manualmente a cor no hover */
+        }
+
+        /* Efeito ao clicar - Agora com a cor --gold-color */
+        &:active {
+            background-color: var(--gold-color); /* Cor de fundo ao clicar */
+        }
+    }
+
+    /* Estilo opcional para botões desabilitados */
+    .btn-custom:disabled {
+        background-color: #e0a3b5;
+        cursor: not-allowed;
     }
 `;
 
