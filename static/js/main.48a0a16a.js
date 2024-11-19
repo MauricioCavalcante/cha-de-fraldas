@@ -11,7 +11,7 @@
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
-        background-image: url("cha-de-fraldas/fundo.png");
+        background-image: url("./fundo.png");
         background-position: center;
         color: #333;
     }
