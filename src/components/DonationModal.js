@@ -138,8 +138,10 @@ function DonationModal({
               onChange={handleChange}
               required
             >
+              
+              <option value="">Selecione aqui</option>
               <option value="Pix">Pix</option>
-              <option value="Comprar">Comprar Presente</option>
+              <option value="Comprar">Comprar Presente (levar em mãos)</option>
             </Form.Control>
           </Form.Group>
           <Form.Group>

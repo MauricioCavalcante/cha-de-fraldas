@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
     :root {
-        --gold-color: #e8c357;
+        --gold-color: #e6ceac;
         --pink-color: #f194a8;
         --light-color: #fff9fae0;
         --text-color: white;
@@ -109,6 +109,7 @@ const GlobalStyles = createGlobalStyle`
         &:hover {
             background-color: var(--pink-color);
             border: 2px solid var(--pink-color);
+            color:white;
         }
     }
 `;

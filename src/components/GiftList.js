@@ -18,8 +18,7 @@ function GiftList() {
     tipoDoacao: "Pix",
   });
 
-  const apiUrl =
-    "https://script.google.com/macros/s/AKfycbxvRpLquYnpFL1ONnJpYW3-GRfkcKtIqx3y8Mgv2pI4XPhn2dsixtq1RrvLvqFmgj-R/exec";
+  const apiUrl = process.env.REACT_APP_SCRIPT_URL;
 
   // Fetch gifts from API
   const fetchData = async () => {
@@ -99,7 +98,7 @@ function GiftList() {
           const isDisabled = maxQuantity > 0 && donatedQuantity >= maxQuantity;
 
           return (
-            <div key={gift[0]} className="col-8 col-md-4 mb-4">
+            <div key={gift[0]} className="col-10 col-md-4 mb-4">
               <div className="card">
                 <h5 className="card-title">{gift[1]}</h5>
                 <img src={gift[6]} alt={gift[1]} style={{ height: "200px", objectFit: "cover" }} />
