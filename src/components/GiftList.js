@@ -10,6 +10,7 @@ function GiftList() {
   const [selectedGift, setSelectedGift] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
+    formType: "doados",
     id: "",
     item: "",
     doador: "",
@@ -20,12 +21,10 @@ function GiftList() {
 
   const apiUrl = process.env.REACT_APP_SCRIPT_URL;
 
-  // Fetch gifts from API
   const fetchData = async () => {
     try {
       const response = await axios.get(apiUrl);
       const { presentes } = response.data;
-      console.log("Dados recebidos da API:", presentes);
       setGifts(presentes || []);
       setLoading(false);
     } catch (err) {
@@ -67,6 +66,7 @@ function GiftList() {
       if (result.status === "success") {
         alert("Dados enviados com sucesso!");
         setFormData({
+          formType: "doados",
           id: "",
           item: "",
           doador: "",
@@ -128,7 +128,7 @@ function GiftList() {
                       setSelectedGift(gift);
                       setFormData({
                         ...formData,
-                        item: gift[1], // Atualiza o nome do item no formData
+                        item: gift[1],
                       });
                       setShowModal(true);
                     }}
@@ -150,7 +150,7 @@ function GiftList() {
         handleSubmit={handleSubmit}
         formData={formData}
         handleChange={handleChange}
-        setFormData={setFormData} // Passando setFormData como prop
+        setFormData={setFormData} 
       />
     </div>
   );

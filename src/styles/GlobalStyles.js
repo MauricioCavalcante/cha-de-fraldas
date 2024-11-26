@@ -29,13 +29,13 @@ const GlobalStyles = createGlobalStyle`
 
     .container-title {
         display: flex;
-        max-width: 600px;
+        max-width: 700px;
         justify-content: center;
         align-items: center;
         color: var(--text-color);
         font-family: Arial, Helvetica, sans-serif;
         background-color: var(--pink-color);
-        clip-path: polygon(100% 0%, 90% 50%, 100% 99%, 0 99%, 10% 50%, 0 0);
+        clip-path: polygon(100% 0%, 95% 50%, 100% 99%, 0 99%, 5% 50%, 0 0);
         margin: 20px auto;
         flex-direction: column;
     }

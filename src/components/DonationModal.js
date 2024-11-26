@@ -15,8 +15,10 @@ function DonationModal({
 }) {
   const maxQuantity =
     selectedGift && !isNaN(selectedGift[3]) && !isNaN(selectedGift[4])
-      ? selectedGift[3] - selectedGift[4]
-      : 0;
+      ? selectedGift[3] === 0
+        ? Infinity
+        : selectedGift[3] - selectedGift[4]
+      : Infinity;
 
   const totalValue =
     selectedGift && !isNaN(selectedGift[5]) && !isNaN(formData.quantidade)
@@ -86,10 +88,13 @@ function DonationModal({
           />
         </div>
         <div className="d-flex gap-3">
-          <p>
-            <strong>Quantidade Máxima:</strong>{" "}
-            {selectedGift ? selectedGift[3] : "Indefinido"}
-          </p>
+          {selectedGift &&
+            selectedGift[3] !== undefined &&
+            selectedGift[3] !== 0 && (
+              <p>
+                <strong>Quantidade Máxima:</strong> {selectedGift[3]}
+              </p>
+            )}
           <p>
             <strong>Presenteado:</strong>{" "}
             {selectedGift ? selectedGift[4] : "Indefinido"}
@@ -123,7 +128,7 @@ function DonationModal({
               value={formData.quantidade}
               onChange={handleChange}
               min="1"
-              max={maxQuantity}
+              max={maxQuantity === Infinity ? undefined : maxQuantity}
               required
             />
           </Form.Group>

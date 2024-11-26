@@ -3,37 +3,59 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-const apiPresenca = process.env.REACT_APP_SCRIPT_PRESENCE;
+const apiPresence = process.env.REACT_APP_SCRIPT_URL; 
 
 function PresenceModal({ show, handleClose, handleConfirm }) {
-  const [name, setName] = useState("");
+  const [nome, setName] = useState(""); 
   const [guests, setGuests] = useState(0); 
+  const [error, setError] = useState(null); 
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = { name, guests };
-    fetch(apiPresenca, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.statusText}`);
-        }
-        return response.json();
-      })
-      .then((result) => {
-        console.log("Success:", result);
-        handleConfirm(data);
-        handleClose();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert(`Erro ao enviar dados: ${error.message}`);
+
+    // Basic validation for name and guests
+    if (!nome || guests < 0) {
+      setError("Por favor, preencha todos os campos corretamente.");
+      return;
+    }
+
+    setError(null); // Reset error state before sending the request
+    setIsSubmitting(true); // Disable the submit button
+
+    const data = {
+      formType: "presenca",
+      nome: nome,
+      guests: guests,
+    };
+
+    try {
+      const response = await fetch(apiPresence, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log("Presença registrada com sucesso:", result);
+        handleConfirm(data); 
+        handleClose();
+        setName("");
+        setGuests(0);
+      } else {
+        throw new Error(result.message || "Erro ao registrar presença");
+      }
+
+    } catch (error) {
+      console.error("Erro:", error);
+      setError(`Erro ao enviar dados: ${error.message}`);
+    } finally {
+      setIsSubmitting(false); // Enable the submit button again after request is done
+    }
   };
 
   return (
@@ -42,14 +64,16 @@ function PresenceModal({ show, handleClose, handleConfirm }) {
         <Modal.Title>Confirmar Presença</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {error && <div className="alert alert-danger">{error}</div>}
+
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formName">
             <Form.Label>Nome</Form.Label>
             <Form.Control
               type="text"
-              name="name"
+              name="nome"
               placeholder="Digite seu nome"
-              value={name}
+              value={nome}
               onChange={(e) => setName(e.target.value)}
               required
             />
@@ -61,13 +85,13 @@ function PresenceModal({ show, handleClose, handleConfirm }) {
               type="number"
               placeholder="Digite a quantidade de acompanhantes"
               value={guests}
-              onChange={(e) => setGuests(e.target.value)}
+              onChange={(e) => setGuests(Number(e.target.value))}
               min={0}
               required
             />
           </Form.Group>
-          <Button type="submit" className="btn-custom mt-3">
-            Confirmar
+          <Button type="submit" className="btn-custom mt-3" disabled={isSubmitting}>
+            {isSubmitting ? "Enviando..." : "Confirmar"}
           </Button>
         </Form>
       </Modal.Body>

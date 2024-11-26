@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { PIX } from "react-qrcode-pix";
-import Button from "react-bootstrap/Button";
 
 const PaymentQRCode = ({ valorTotal }) => {
   const [pixPayload, setPixPayload] = useState(""); // Estado para armazenar o payload
@@ -10,14 +9,12 @@ const PaymentQRCode = ({ valorTotal }) => {
       navigator.clipboard
         .writeText(pixPayload)
         .then(() => {
-          alert("QRCode copiado para a área de transferência!");
+          document.getElementById('btnQRCode').textContent = "Copiado!"
         })
         .catch((err) => {
           console.error("Erro ao copiar o código Pix: ", err);
           alert("Erro ao copiar o código Pix.");
         });
-    } else {
-      alert("O código Pix ainda não está disponível.");
     }
   };
 
@@ -31,14 +28,16 @@ const PaymentQRCode = ({ valorTotal }) => {
           amount={parseFloat(valorTotal)}
           size={125}
           onLoad={(payload) => {
-            setPixPayload(payload); // Salva o payload no estado
-            console.log("Payload gerado:", payload); // Log para depuração
+            setPixPayload(payload);
+            console.log("Payload gerado:", payload);
           }}
         />
       </div>
-        <button className="d-flex btn-copy mt-4" onClick={handleCopy}>
+      <div className="d-flex justify-content-center">
+        <button className="btn-copy mt-4" id="btnQRCode" onClick={handleCopy}>
           Copiar código Pix
         </button>
+      </div>
     </div>
   );
 };
