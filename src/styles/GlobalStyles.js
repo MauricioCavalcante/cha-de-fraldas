@@ -104,6 +104,8 @@ const GlobalStyles = createGlobalStyle`
     .btn-copy {
         background-color: white;
         border: 2px solid var(--pink-color);
+        border-radius: 5px;
+        padding: 5px;
         color: var(--pink-color);
 
         &:hover {

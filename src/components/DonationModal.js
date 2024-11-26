@@ -38,7 +38,7 @@ function DonationModal({
         ...prevState,
         item: selectedGift[1],
         quantidade: 1,
-        tipoDoacao: "Pix",
+        tipoDoacao: "",
         data: currentDate,
         id: selectedGift[0],
       }));
@@ -49,7 +49,7 @@ function DonationModal({
 
   const handleCopy = () => {
     navigator.clipboard.writeText();
-    alert("Chave Pix copiada para a área de transferência!");
+    alert("QRCode copiado para a área de transferência!");
   };
 
   const handleFormSubmit = (e) => {
@@ -138,19 +138,10 @@ function DonationModal({
               onChange={handleChange}
               required
             >
-              
               <option value="">Selecione aqui</option>
               <option value="Pix">Pix</option>
               <option value="Comprar">Comprar Presente (levar em mãos)</option>
             </Form.Control>
-          </Form.Group>
-          <Form.Group>
-            <Form.Label className="mt-3">
-              <strong>Valor Total:</strong>{" "}
-              {selectedGift && selectedGift[5]
-                ? `R$ ${(selectedGift[5] * formData.quantidade).toFixed(2)}`
-                : "Indefinido"}
-            </Form.Label>
           </Form.Group>
           <Form.Control
             type="hidden"
@@ -158,31 +149,58 @@ function DonationModal({
             value={currentDate}
             required
           />
-          {formData.tipoDoacao === "Pix" && selectedGift && selectedGift[5] && (
+          {formData.tipoDoacao === "" && selectedGift && selectedGift[5] && (
             <div>
-              <div>
-                <strong>Presentar com Pix:</strong>
-              </div>
-              <div className="d-flex justify-content-center">
-                <PaymentQRCode valorTotal={totalValue} />
-              </div>
-              <div className="d-flex justify-content-center"> <Button className="btn-copy mt-4" onClick={() => handleCopy()}>Copiar código</Button> </div>
+              <strong>Selecione o tipo de presente</strong>
             </div>
           )}
+
+          {formData.tipoDoacao === "Pix" && selectedGift && selectedGift[5] && (
+            <Form.Group>
+              <Form.Label className="mt-3">
+                <strong>Valor Total:</strong>{" "}
+                {typeof selectedGift[5] === "number" &&
+                typeof formData?.quantidade === "number"
+                  ? `R$ ${(selectedGift[5] * formData.quantidade).toFixed(2)}`
+                  : "Indefinido"}
+              </Form.Label>
+              <div>
+                <div>
+                  <strong>Presentar com Pix:</strong>
+                </div>
+                <div className="d-flex justify-content-center">
+                  <PaymentQRCode
+                    valorTotal={selectedGift[5] * (formData?.quantidade || 1)} // Garante valor padrão
+                  />
+                </div>
+              </div>
+            </Form.Group>
+          )}
+
           {formData.tipoDoacao === "Comprar" &&
             selectedGift &&
             selectedGift[2] && (
-              <div>
-                <strong>Sugestão de Link:</strong>
-                <a
-                  href={selectedGift[2]}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Acessar página
-                </a>
-              </div>
+              <Form.Group>
+                <Form.Label className="mt-3">
+                  <strong>Valor Total:</strong>{" "}
+                  {typeof selectedGift[5] === "number" &&
+                  typeof formData?.quantidade === "number"
+                    ? `R$ ${(selectedGift[5] * formData.quantidade).toFixed(2)}`
+                    : "Indefinido"}
+                </Form.Label>
+                <div>
+                  <strong>Sugestão de Link:</strong>
+                  <a
+                    href={selectedGift[2]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Acessar página
+                  </a>
+                </div>
+              </Form.Group>
             )}
+
           <Button className="btn-custom mt-4" type="submit">
             Confirmar
           </Button>

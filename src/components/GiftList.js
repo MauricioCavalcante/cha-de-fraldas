@@ -146,7 +146,7 @@ function GiftList() {
       <DonationModal
         showModal={showModal}
         setShowModal={setShowModal}
-        selectedGift={selectedGift} // Certifique-se que selectedGift contém as informações corretas
+        selectedGift={selectedGift}
         handleSubmit={handleSubmit}
         formData={formData}
         handleChange={handleChange}
