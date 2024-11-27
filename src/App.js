@@ -10,7 +10,7 @@ function App() {
   return (
     <>
     <GlobalStyles />
-    <Router basename="/cha-de-fraldas">
+    <Router>
       <Routes>
         <Route path="/" element={<Home />} />
       </Routes>
