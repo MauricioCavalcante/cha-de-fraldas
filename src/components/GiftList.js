@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
-import DonationModal from "./DonationModal"; // Importando a modal
+import DonationModal from "./DonationModal";
 
 function GiftList() {
   const [gifts, setGifts] = useState([]);
@@ -9,6 +9,7 @@ function GiftList() {
   const [error, setError] = useState(null);
   const [selectedGift, setSelectedGift] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     formType: "doados",
     id: "",
@@ -51,7 +52,7 @@ function GiftList() {
       alert("Todos os campos são obrigatórios.");
       return;
     }
-
+    setIsSubmitting(true);
     try {
       const response = await fetch(apiUrl, {
         method: "POST",
@@ -64,7 +65,8 @@ function GiftList() {
       const result = await response.json();
 
       if (result.status === "success") {
-        alert("Dados enviados com sucesso!");
+        document.getElementById("formPresente").style.display = "none";
+        document.getElementById("formConfirmado").style.display = "block";
         setFormData({
           formType: "doados",
           id: "",
@@ -74,7 +76,7 @@ function GiftList() {
           data: new Date().toISOString().split("T")[0],
           tipoDoacao: "Pix",
         });
-        setShowModal(false);
+        setTimeout(() => { setShowModal(false); }, 2000);
         fetchData();
       } else {
         alert("Erro ao enviar os dados: " + result.message);
@@ -82,6 +84,8 @@ function GiftList() {
     } catch (error) {
       console.error("Erro:", error);
       alert("Erro ao enviar os dados.");
+    }finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -150,7 +154,8 @@ function GiftList() {
         handleSubmit={handleSubmit}
         formData={formData}
         handleChange={handleChange}
-        setFormData={setFormData} 
+        setFormData={setFormData}
+        isSubmitting={isSubmitting}
       />
     </div>
   );

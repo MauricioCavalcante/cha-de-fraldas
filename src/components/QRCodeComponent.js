@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { PIX } from "react-qrcode-pix";
 
 const PaymentQRCode = ({ valorTotal }) => {
-  const [pixPayload, setPixPayload] = useState(""); // Estado para armazenar o payload
+  const [pixPayload, setPixPayload] = useState("");
 
   const handleCopy = () => {
     if (pixPayload) {
       navigator.clipboard
         .writeText(pixPayload)
         .then(() => {
-          document.getElementById('btnQRCode').textContent = "Copiado!"
+          document.getElementById('btnQRCode').textContent = "Copiado!";
+          setTimeout(function() { document.getElementById('btnQRCode').textContent = "Copiar código Pix"; }, 1000);
         })
         .catch((err) => {
           console.error("Erro ao copiar o código Pix: ", err);
@@ -34,7 +35,7 @@ const PaymentQRCode = ({ valorTotal }) => {
         />
       </div>
       <div className="d-flex justify-content-center">
-        <button className="btn-copy mt-4" id="btnQRCode" onClick={handleCopy}>
+        <button type="button" className="btn-copy mt-4" id="btnQRCode" onClick={handleCopy}>
           Copiar código Pix
         </button>
       </div>
