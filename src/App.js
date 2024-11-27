@@ -10,7 +10,7 @@ function App() {
   return (
     <>
     <GlobalStyles />
-    <Router>
+    <Router >
       <Routes>
         <Route path="/" element={<Home />} />
       </Routes>
